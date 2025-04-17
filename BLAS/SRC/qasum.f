@@ -1,0 +1,132 @@
+*> \brief \b QASUM
+*
+*  =========== DOCUMENTATION ===========
+*
+* Online html documentation available at
+*            http://www.netlib.org/lapack/explore-html/
+*
+*  Definition:
+*  ===========
+*
+*       REAL*16 FUNCTION QASUM(N,QX,INCX)
+*
+*       .. Scalar Arguments ..
+*       INTEGER INCX,N
+*       ..
+*       .. Array Arguments ..
+*       REAL*16 QX(*)
+*       ..
+*
+*
+*> \par Purpose:
+*  =============
+*>
+*> \verbatim
+*>
+*>    QASUM takes the sum of the absolute values.
+*>    uses unrolled loops for increment equal to one.
+*> \endverbatim
+*
+*  Arguments:
+*  ==========
+*
+*> \param[in] N
+*> \verbatim
+*>          N is INTEGER
+*>         number of elements in input vector(s)
+*> \endverbatim
+*>
+*> \param[in] QX
+*> \verbatim
+*>          QX is REAL*16 array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
+*> \endverbatim
+*>
+*> \param[in] INCX
+*> \verbatim
+*>          INCX is INTEGER
+*>         storage spacing between elements of QX
+*> \endverbatim
+*
+*  Authors:
+*  ========
+*
+*> \author Univ. of Tennessee
+*> \author Univ. of California Berkeley
+*> \author Univ. of Colorado Denver
+*> \author NAG Ltd.
+*
+*> \ingroup asum
+*
+*> \par Further Details:
+*  =====================
+*>
+*> \verbatim
+*>
+*>     jack dongarra, linpack, 3/11/78.
+*>     modified 3/93 to return if incx .le. 0.
+*>     modified 12/3/93, array(1) declarations changed to array(*)
+*> \endverbatim
+*>
+*  =====================================================================
+      REAL*16 FUNCTION QASUM(N,QX,INCX)
+*
+*  -- Reference BLAS level1 routine --
+*  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
+*  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+*
+*     .. Scalar Arguments ..
+      INTEGER INCX,N
+*     ..
+*     .. Array Arguments ..
+      REAL*16 QX(*)
+*     ..
+*
+*  =====================================================================
+*
+*     .. Local Scalars ..
+      REAL*16 STEMP
+      INTEGER I,M,MP1,NINCX
+*     ..
+*     .. Intrinsic Functions ..
+      INTRINSIC ABS,MOD
+*     ..
+      QASUM = 0.0Q0
+      STEMP = 0.0Q0
+      IF (N.LE.0 .OR. INCX.LE.0) RETURN
+      IF (INCX.EQ.1) THEN
+*        code for increment equal to 1
+*
+*
+*        clean-up loop
+*
+         M = MOD(N,6)
+         IF (M.NE.0) THEN
+            DO I = 1,M
+               STEMP = STEMP + ABS(QX(I))
+            END DO
+            IF (N.LT.6) THEN
+               QASUM = STEMP
+               RETURN
+            END IF
+         END IF
+         MP1 = M + 1
+         DO I = MP1,N,6
+            STEMP = STEMP + ABS(QX(I)) + ABS(QX(I+1)) +
+     $              ABS(QX(I+2)) + ABS(QX(I+3)) +
+     $              ABS(QX(I+4)) + ABS(QX(I+5))
+         END DO
+      ELSE
+*
+*        code for increment not equal to 1
+*
+         NINCX = N*INCX
+         DO I = 1,NINCX,INCX
+            STEMP = STEMP + ABS(QX(I))
+         END DO
+      END IF
+      QASUM = STEMP
+      RETURN
+*
+*     End of QASUM
+*
+      END
