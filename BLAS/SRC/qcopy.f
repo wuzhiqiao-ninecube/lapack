@@ -116,7 +116,7 @@
          END IF
          MP1 = M + 1
          DO I = MP1,N,7
-            QY(I) = QX(I)
+            QY(I)   = QX(I)
             QY(I+1) = QX(I+1)
             QY(I+2) = QX(I+2)
             QY(I+3) = QX(I+3)

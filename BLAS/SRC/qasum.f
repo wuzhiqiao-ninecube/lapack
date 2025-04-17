@@ -55,7 +55,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup asum
+*> \ingroup single_blas_level1
 *
 *> \par Further Details:
 *  =====================
@@ -84,7 +84,7 @@
 *  =====================================================================
 *
 *     .. Local Scalars ..
-      REAL*16 STEMP
+      REAL*16 QTEMP
       INTEGER I,M,MP1,NINCX
 *     ..
 *     .. Intrinsic Functions ..
@@ -102,7 +102,7 @@
          M = MOD(N,6)
          IF (M.NE.0) THEN
             DO I = 1,M
-               STEMP = STEMP + ABS(QX(I))
+               QTEMP = QTEMP + ABS(QX(I))
             END DO
             IF (N.LT.6) THEN
                QASUM = STEMP
@@ -111,7 +111,7 @@
          END IF
          MP1 = M + 1
          DO I = MP1,N,6
-            STEMP = STEMP + ABS(QX(I)) + ABS(QX(I+1)) +
+            QTEMP = QTEMP + ABS(QX(I)) + ABS(QX(I+1)) +
      $              ABS(QX(I+2)) + ABS(QX(I+3)) +
      $              ABS(QX(I+4)) + ABS(QX(I+5))
          END DO
@@ -121,10 +121,10 @@
 *
          NINCX = N*INCX
          DO I = 1,NINCX,INCX
-            STEMP = STEMP + ABS(QX(I))
+            QTEMP = QTEMP + ABS(QX(I))
          END DO
       END IF
-      QASUM = STEMP
+      QASUM = QTEMP
       RETURN
 *
 *     End of QASUM

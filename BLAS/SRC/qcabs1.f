@@ -43,7 +43,7 @@
 *> \ingroup abs1
 *
 *  =====================================================================
-      REAL*16 FUNCTION QCABS1(Z)
+      REAL*16 FUNCTION QCABS1(Z) 
 *
 *  -- Reference BLAS level1 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
