@@ -38,6 +38,8 @@ LAPACKE/example/xexample*
 SRC/*-e
 LAPACKE/src/*-e
 build*
+cmake-build*
+.idea
 
 # DOCS documentation
 DOCS/man
