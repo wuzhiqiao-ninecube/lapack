@@ -1,0 +1,141 @@
+*> \brief \b XAXPY
+*
+*  =========== DOCUMENTATION ===========
+*
+* Online html documentation available at
+*            http://www.netlib.org/lapack/explore-html/
+*
+*  Definition:
+*  ===========
+*
+*       SUBROUTINE XAXPY(N,XA,XX,INCX,XY,INCY)
+*
+*       .. Scalar Arguments ..
+*       COMPLEX*32 XA
+*       INTEGER INCX,INCY,N
+*       ..
+*       .. Array Arguments ..
+*       COMPLEX*32 XX(*),XY(*)
+*       ..
+*
+*
+*> \par Purpose:
+*  =============
+*>
+*> \verbatim
+*>
+*>    XAXPY constant times a vector plus a vector.
+*> \endverbatim
+*
+*  Arguments:
+*  ==========
+*
+*> \param[in] N
+*> \verbatim
+*>          N is INTEGER
+*>         number of elements in input vector(s)
+*> \endverbatim
+*>
+*> \param[in] XA
+*> \verbatim
+*>          XA is COMPLEX
+*>           On entry, XA specifies the scalar alpha.
+*> \endverbatim
+*>
+*> \param[in] XX
+*> \verbatim
+*>          XX is COMPLEX*32 array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
+*> \endverbatim
+*>
+*> \param[in] INCX
+*> \verbatim
+*>          INCX is INTEGER
+*>         storage spacing between elements of CX
+*> \endverbatim
+*>
+*> \param[in,out] XY
+*> \verbatim
+*>          XY is COMPLEX*32 array, dimension ( 1 + ( N - 1 )*abs( INCY ) )
+*> \endverbatim
+*>
+*> \param[in] INCY
+*> \verbatim
+*>          INCY is INTEGER
+*>         storage spacing between elements of XY
+*> \endverbatim
+*
+*  Authors:
+*  ========
+*
+*> \author Univ. of Tennessee
+*> \author Univ. of California Berkeley
+*> \author Univ. of Colorado Denver
+*> \author NAG Ltd.
+*> \author NINECUBE Ltd.
+*
+*> \ingroup axpy
+*
+*> \par Further Details:
+*  =====================
+*>
+*> \verbatim
+*>
+*>     jack dongarra, 3/11/78.
+*>     modified 12/3/93, array(1) declarations changed to array(*)
+*> \endverbatim
+*>
+*  =====================================================================
+      SUBROUTINE XAXPY(N,XA,XX,INCX,XY,INCY)
+*
+*  -- Reference BLAS level1 routine --
+*  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
+*  -- Univ. of California Berkeley, Univ. of Colorado Denver,                 --
+*  -- NAG Ltd. and NINECUBE Ltd..                                             --
+*
+*     .. Scalar Arguments ..
+      COMPLEX*32 XA
+      INTEGER INCX,INCY,N
+*     ..
+*     .. Array Arguments ..
+      COMPLEX*32 XX(*),XY(*)
+*     ..
+*
+*  =====================================================================
+*
+*     .. Local Scalars ..
+      INTEGER I,IX,IY
+*     ..
+*     .. External Functions ..
+      REAL*16 QCABS1
+      EXTERNAL QCABS1
+*     ..
+      IF (N.LE.0) RETURN
+      IF (QCABS1(XA).EQ.0.0Q+0) RETURN
+      IF (INCX.EQ.1 .AND. INCY.EQ.1) THEN
+*
+*        code for both increments equal to 1
+*
+         DO I = 1,N
+            XY(I) = XY(I) + XA*XX(I)
+         END DO
+      ELSE
+*
+*        code for unequal increments or equal increments
+*          not equal to 1
+*
+         IX = 1
+         IY = 1
+         IF (INCX.LT.0) IX = (-N+1)*INCX + 1
+         IF (INCY.LT.0) IY = (-N+1)*INCY + 1
+         DO I = 1,N
+            XY(IY) = XY(IY) + XA*XX(IX)
+            IX = IX + INCX
+            IY = IY + INCY
+         END DO
+      END IF
+*
+      RETURN
+*
+*     End of XAXPY
+*
+      END
