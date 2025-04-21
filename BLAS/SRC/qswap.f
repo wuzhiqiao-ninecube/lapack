@@ -8,13 +8,13 @@
 *  Definition:
 *  ===========
 *
-*       SUBROUTINE QSWAP(N,SX,INCX,SY,INCY)
+*       SUBROUTINE QSWAP(N,QX,INCX,QY,INCY)
 *
 *       .. Scalar Arguments ..
 *       INTEGER INCX,INCY,N
 *       ..
 *       .. Array Arguments ..
-*       REAL SX(*),SY(*)
+*       REAL QX(*),QY(*)
 *       ..
 *
 *
@@ -36,26 +36,26 @@
 *>         number of elements in input vector(s)
 *> \endverbatim
 *>
-*> \param[in,out] SX
+*> \param[in,out] QX
 *> \verbatim
-*>          SX is REAL array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
+*>          QX is REAL*16 array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
 *> \endverbatim
 *>
 *> \param[in] INCX
 *> \verbatim
 *>          INCX is INTEGER
-*>         storage spacing between elements of SX
+*>         storage spacing between elements of QX
 *> \endverbatim
 *>
-*> \param[in,out] SY
+*> \param[in,out] QY
 *> \verbatim
-*>          SY is REAL array, dimension ( 1 + ( N - 1 )*abs( INCY ) )
+*>          QY is REAL array, dimension ( 1 + ( N - 1 )*abs( INCY ) )
 *> \endverbatim
 *>
 *> \param[in] INCY
 *> \verbatim
 *>          INCY is INTEGER
-*>         storage spacing between elements of SY
+*>         storage spacing between elements of QY
 *> \endverbatim
 *
 *  Authors:
@@ -66,7 +66,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level1
+*> \ingroup swap
 *
 *> \par Further Details:
 *  =====================
@@ -79,7 +79,6 @@
 *>
 *  =====================================================================
       SUBROUTINE QSWAP(N,SX,INCX,SY,INCY)
-      IMPLICIT NONE
 *
 *  -- Reference BLAS level1 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
@@ -89,13 +88,13 @@
       INTEGER INCX,INCY,N
 *     ..
 *     .. Array Arguments ..
-      REAL*16 SX(*),SY(*)
+      REAL*16 QX(*),QY(*)
 *     ..
 *
 *  =====================================================================
 *
 *     .. Local Scalars ..
-      REAL*16 STEMP
+      REAL*16 QTEMP
       INTEGER I,IX,IY,M,MP1
 *     ..
 *     .. Intrinsic Functions ..
@@ -112,23 +111,23 @@
          M = MOD(N,3)
          IF (M.NE.0) THEN
             DO I = 1,M
-               STEMP = SX(I)
-               SX(I) = SY(I)
-               SY(I) = STEMP
+               QTEMP = QX(I)
+               QX(I) = QY(I)
+               QY(I) = QTEMP
             END DO
             IF (N.LT.3) RETURN
          END IF
          MP1 = M + 1
          DO I = MP1,N,3
-            STEMP = SX(I)
-            SX(I) = SY(I)
-            SY(I) = STEMP
-            STEMP = SX(I+1)
-            SX(I+1) = SY(I+1)
-            SY(I+1) = STEMP
-            STEMP = SX(I+2)
-            SX(I+2) = SY(I+2)
-            SY(I+2) = STEMP
+            QTEMP = QX(I)
+            QX(I) = QY(I)
+            QY(I) = QTEMP
+            QTEMP = QX(I+1)
+            QX(I+1) = QY(I+1)
+            QY(I+1) = QTEMP
+            QTEMP = QX(I+2)
+            QX(I+2) = QY(I+2)
+            QY(I+2) = QTEMP
          END DO
       ELSE
 *
@@ -140,9 +139,9 @@
          IF (INCX.LT.0) IX = (-N+1)*INCX + 1
          IF (INCY.LT.0) IY = (-N+1)*INCY + 1
          DO I = 1,N
-            STEMP = SX(IX)
-            SX(IX) = SY(IY)
-            SY(IY) = STEMP
+            QTEMP = QX(IX)
+            QX(IX) = QY(IY)
+            QY(IY) = QTEMP
             IX = IX + INCX
             IY = IY + INCY
          END DO

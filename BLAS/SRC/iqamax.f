@@ -1,4 +1,4 @@
-*> \brief \b IDAMAX
+*> \brief \b IQAMAX
 *
 *  =========== DOCUMENTATION ===========
 *
@@ -8,13 +8,13 @@
 *  Definition:
 *  ===========
 *
-*       INTEGER FUNCTION IDAMAX(N,DX,INCX)
+*       INTEGER FUNCTION IQAMAX(N,QX,INCX)
 *
 *       .. Scalar Arguments ..
 *       INTEGER INCX,N
 *       ..
 *       .. Array Arguments ..
-*       DOUBLE PRECISION DX(*)
+*       REAL QX(*)
 *       ..
 *
 *
@@ -23,7 +23,7 @@
 *>
 *> \verbatim
 *>
-*>    IDAMAX finds the index of the first element having maximum absolute value.
+*>    IQAMAX finds the index of the first element having maximum absolute value.
 *> \endverbatim
 *
 *  Arguments:
@@ -35,15 +35,15 @@
 *>         number of elements in input vector(s)
 *> \endverbatim
 *>
-*> \param[in] DX
+*> \param[in] QX
 *> \verbatim
-*>          DX is DOUBLE PRECISION array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
+*>          QX is REAL*16 array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
 *> \endverbatim
 *>
 *> \param[in] INCX
 *> \verbatim
 *>          INCX is INTEGER
-*>         storage spacing between elements of DX
+*>         storage spacing between elements of QX
 *> \endverbatim
 *
 *  Authors:
@@ -67,7 +67,7 @@
 *> \endverbatim
 *>
 *  =====================================================================
-      INTEGER FUNCTION IDAMAX(N,DX,INCX)
+      INTEGER FUNCTION IQAMAX(N,QX,INCX)
 *
 *  -- Reference BLAS level1 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
@@ -77,31 +77,31 @@
       INTEGER INCX,N
 *     ..
 *     .. Array Arguments ..
-      DOUBLE PRECISION DX(*)
+      REAL*16 QX(*)
 *     ..
 *
 *  =====================================================================
 *
 *     .. Local Scalars ..
-      DOUBLE PRECISION DMAX
+      REAL*16 QMAX
       INTEGER I,IX
 *     ..
 *     .. Intrinsic Functions ..
-      INTRINSIC DABS
+      INTRINSIC ABS
 *     ..
-      IDAMAX = 0
+      IQAMAX = 0
       IF (N.LT.1 .OR. INCX.LE.0) RETURN
-      IDAMAX = 1
+      IQAMAX = 1
       IF (N.EQ.1) RETURN
       IF (INCX.EQ.1) THEN
 *
 *        code for increment equal to 1
 *
-         DMAX = DABS(DX(1))
+         QMAX = ABS(QX(1))
          DO I = 2,N
-            IF (DABS(DX(I)).GT.DMAX) THEN
-               IDAMAX = I
-               DMAX = DABS(DX(I))
+            IF (ABS(QX(I)).GT.QMAX) THEN
+               IQAMAX = I
+               QMAX = ABS(QX(I))
             END IF
          END DO
       ELSE
@@ -109,18 +109,18 @@
 *        code for increment not equal to 1
 *
          IX = 1
-         DMAX = DABS(DX(1))
+         QMAX = ABS(QX(1))
          IX = IX + INCX
          DO I = 2,N
-            IF (DABS(DX(IX)).GT.DMAX) THEN
-               IDAMAX = I
-               DMAX = DABS(DX(IX))
+            IF (ABS(QX(IX)).GT.QMAX) THEN
+               IQAMAX = I
+               QMAX = ABS(QX(IX))
             END IF
             IX = IX + INCX
          END DO
       END IF
       RETURN
 *
-*     End of IDAMAX
+*     End of IQAMAX
 *
       END

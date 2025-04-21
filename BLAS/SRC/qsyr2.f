@@ -1,4 +1,4 @@
-*> \brief \b SSYR2
+*> \brief \b QSYR2
 *
 *  =========== DOCUMENTATION ===========
 *
@@ -8,15 +8,15 @@
 *  Definition:
 *  ===========
 *
-*       SUBROUTINE SSYR2(UPLO,N,ALPHA,X,INCX,Y,INCY,A,LDA)
+*       SUBROUTINE QSYR2(UPLO,N,ALPHA,X,INCX,Y,INCY,A,LDA)
 *
 *       .. Scalar Arguments ..
-*       REAL ALPHA
+*       REAL*16 ALPHA
 *       INTEGER INCX,INCY,LDA,N
 *       CHARACTER UPLO
 *       ..
 *       .. Array Arguments ..
-*       REAL A(LDA,*),X(*),Y(*)
+*       REAL*16 A(LDA,*),X(*),Y(*)
 *       ..
 *
 *
@@ -25,7 +25,7 @@
 *>
 *> \verbatim
 *>
-*> SSYR2  performs the symmetric rank 2 operation
+*> QSYR2  performs the symmetric rank 2 operation
 *>
 *>    A := alpha*x*y**T + alpha*y*x**T + A,
 *>
@@ -59,13 +59,13 @@
 *>
 *> \param[in] ALPHA
 *> \verbatim
-*>          ALPHA is REAL
+*>          ALPHA is REAL*16
 *>           On entry, ALPHA specifies the scalar alpha.
 *> \endverbatim
 *>
 *> \param[in] X
 *> \verbatim
-*>          X is REAL array, dimension at least
+*>          X is REAL*16 array, dimension at least
 *>           ( 1 + ( n - 1 )*abs( INCX ) ).
 *>           Before entry, the incremented array X must contain the n
 *>           element vector x.
@@ -80,7 +80,7 @@
 *>
 *> \param[in] Y
 *> \verbatim
-*>          Y is REAL array, dimension at least
+*>          Y is REAL*16 array, dimension at least
 *>           ( 1 + ( n - 1 )*abs( INCY ) ).
 *>           Before entry, the incremented array Y must contain the n
 *>           element vector y.
@@ -95,7 +95,7 @@
 *>
 *> \param[in,out] A
 *> \verbatim
-*>          A is REAL array, dimension ( LDA, N )
+*>          A is REAL*16 array, dimension ( LDA, N )
 *>           Before entry with  UPLO = 'U' or 'u', the leading n by n
 *>           upper triangular part of the array A must contain the upper
 *>           triangular part of the symmetric matrix and the strictly
@@ -126,7 +126,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level2
+*> \ingroup her2
 *
 *> \par Further Details:
 *  =====================
@@ -144,7 +144,6 @@
 *>
 *  =====================================================================
       SUBROUTINE QSYR2(UPLO,N,ALPHA,X,INCX,Y,INCY,A,LDA)
-      IMPLICIT NONE
 *
 *  -- Reference BLAS level2 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
@@ -291,6 +290,6 @@
 *
       RETURN
 *
-*     End of SSYR2
+*     End of QSYR2
 *
       END

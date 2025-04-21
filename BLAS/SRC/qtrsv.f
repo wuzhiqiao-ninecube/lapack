@@ -83,7 +83,7 @@
 *>
 *> \param[in] A
 *> \verbatim
-*>          A is REAL array, dimension ( LDA, N )
+*>          A is REAL*16 array, dimension ( LDA, N )
 *>           Before entry with  UPLO = 'U' or 'u', the leading n by n
 *>           upper triangular part of the array A must contain the upper
 *>           triangular matrix and the strictly lower triangular part of
@@ -106,7 +106,7 @@
 *>
 *> \param[in,out] X
 *> \verbatim
-*>          X is REAL array, dimension at least
+*>          X is REAL*16 array, dimension at least
 *>           ( 1 + ( n - 1 )*abs( INCX ) ).
 *>           Before entry, the incremented array X must contain the n
 *>           element right-hand side vector b. On exit, X is overwritten
@@ -118,6 +118,14 @@
 *>          INCX is INTEGER
 *>           On entry, INCX specifies the increment for the elements of
 *>           X. INCX must not be zero.
+*>
+*>  Level 2 Blas routine.
+*>
+*>  -- Written on 22-October-1986.
+*>     Jack Dongarra, Argonne National Lab.
+*>     Jeremy Du Croz, Nag Central Office.
+*>     Sven Hammarling, Nag Central Office.
+*>     Richard Hanson, Sandia National Labs.
 *> \endverbatim
 *
 *  Authors:
@@ -128,25 +136,10 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level2
+*> \ingroup trsv
 *
-*> \par Further Details:
-*  =====================
-*>
-*> \verbatim
-*>
-*>  Level 2 Blas routine.
-*>
-*>  -- Written on 22-October-1986.
-*>     Jack Dongarra, Argonne National Lab.
-*>     Jeremy Du Croz, Nag Central Office.
-*>     Sven Hammarling, Nag Central Office.
-*>     Richard Hanson, Sandia National Labs.
-*> \endverbatim
-*>
 *  =====================================================================
       SUBROUTINE QTRSV(UPLO,TRANS,DIAG,N,A,LDA,X,INCX)
-      IMPLICIT NONE
 *
 *  -- Reference BLAS level2 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
@@ -187,10 +180,12 @@
       INFO = 0
       IF (.NOT.LSAME(UPLO,'U') .AND. .NOT.LSAME(UPLO,'L')) THEN
           INFO = 1
-      ELSE IF (.NOT.LSAME(TRANS,'N') .AND. .NOT.LSAME(TRANS,'T') .AND.
+      ELSE IF (.NOT.LSAME(TRANS,'N') .AND.
+     +         .NOT.LSAME(TRANS,'T') .AND.
      +         .NOT.LSAME(TRANS,'C')) THEN
           INFO = 2
-      ELSE IF (.NOT.LSAME(DIAG,'U') .AND. .NOT.LSAME(DIAG,'N')) THEN
+      ELSE IF (.NOT.LSAME(DIAG,'U') .AND.
+     +         .NOT.LSAME(DIAG,'N')) THEN
           INFO = 3
       ELSE IF (N.LT.0) THEN
           INFO = 4

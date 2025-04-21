@@ -1,4 +1,4 @@
-*> \brief \b QDSDOT
+*> \brief \b DQDDOT
 *
 *  =========== DOCUMENTATION ===========
 *
@@ -8,14 +8,14 @@
 *  Definition:
 *  ===========
 *
-*       REAL*16 FUNCTION QDSDOT(N,SB,SX,INCX,SY,INCY)
+*       REAL*16 FUNCTION DQDDOT(N,DB,DX,INCX,DY,INCY)
 *
 *       .. Scalar Arguments ..
 *       REAL*16 SB
 *       INTEGER INCX,INCY,N
 *       ..
 *       .. Array Arguments ..
-*       REAL*16 SX(*),SY(*)
+*       REAL*16 DX(*),DY(*)
 *       ..
 *
 *> \par Purpose:
@@ -26,8 +26,8 @@
 *>   Compute the inner product of two vectors with extended
 *>   precision accumulation.
 *>
-*>   Returns Q.P. result with dot product accumulated in D.P.
-*>   QDSDOT = SB + sum for I = 0 to N-1 of SX(LX+I*INCX)*SY(LY+I*INCY),
+*>   Returns D.P. result with dot product accumulated in Q.P.
+*>   QDSDOT = DB + sum for I = 0 to N-1 of DX(LX+I*INCX)*DY(LY+I*INCY),
 *>   where LX = 1 if INCX .GE. 0, else LX = 1+(1-N)*INCX, and LY is
 *>   defined in a similar way using INCY.
 *> \endverbatim
@@ -41,16 +41,16 @@
 *>          number of elements in input vector(s)
 *> \endverbatim
 *>
-*> \param[in] SB
+*> \param[in] DB
 *> \verbatim
-*>          SB is REAL*16
-*>          quad precision scalar to be added to inner product
+*>          DB is  DOUBLE PRECISION
+*>          double precision scalar to be added to inner product
 *> \endverbatim
 *>
-*> \param[in] SX
+*> \param[in] DX
 *> \verbatim
-*>          SX is REAL*16 array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
-*>          quad precision vector with N elements
+*>          DX is  DOUBLE PRECISION array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
+*>          double precision vector with N elements
 *> \endverbatim
 *>
 *> \param[in] INCX
@@ -59,10 +59,10 @@
 *>          storage spacing between elements of SX
 *> \endverbatim
 *>
-*> \param[in] SY
+*> \param[in] DY
 *> \verbatim
-*>          SY is REAL*16 array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
-*>          quad precision vector with N elements
+*>          DY is DOUBLE PRECISION array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
+*>          double precision vector with N elements
 *> \endverbatim
 *>
 *> \param[in] INCY
@@ -82,7 +82,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup quad_blas_level1
+*> \ingroup dot
 *
 *> \par Further Details:
 *  =====================
@@ -109,26 +109,28 @@
 *> \endverbatim
 *>
 *  =====================================================================
-      REAL*16 FUNCTION QDSDOT(N,SB,SX,INCX,SY,INCY)
-      IMPLICIT NONE
+      DOUBLE PRECISION FUNCTION DQDDOT(N,DB,DX,INCX,DY,INCY)
 *
 *  -- Reference BLAS level1 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
 *
 *     .. Scalar Arguments ..
-      REAL*16 SB
+      DOUBLE PRECISION DB
       INTEGER INCX,INCY,N
 *     ..
 *     .. Array Arguments ..
-      REAL*16 SX(*),SY(*)
+      DOUBLE PRECISION DX(*),DY(*)
 *     .. Local Scalars ..
-      REAL*16 DSDOT
+      REAL*16 QDDOT
       INTEGER I,KX,KY,NS
 *     ..
-      DSDOT = SB
+*     .. Intrinsic Functions ..
+      INTRINSIC DBLE, REAL
+*     ..
+      QDDOT = DB
       IF (N.LE.0) THEN
-         QDSDOT = DSDOT
+         DQDDOT = DBLE(QDDOT)
          RETURN
       END IF
       IF (INCX.EQ.INCY .AND. INCX.GT.0) THEN
@@ -137,7 +139,7 @@
 *
          NS = N*INCX
          DO I = 1,NS,INCX
-            DSDOT = DSDOT + SX(I)*SY(I)
+            QDDOT = QDDOT + REAL(SX(I),16)*REAL(SY(I),16)
          END DO
       ELSE
 *
@@ -148,14 +150,14 @@
          IF (INCX.LT.0) KX = 1 + (1-N)*INCX
          IF (INCY.LT.0) KY = 1 + (1-N)*INCY
          DO I = 1,N
-            DSDOT = DSDOT + SX(KX)*SY(KY)
+            QDDOT = QDDOT + REAL(SX(KX),16)*REAL(SY(KY),16)
             KX = KX + INCX
             KY = KY + INCY
          END DO
       END IF
-      QDSDOT = DSDOT
+      DQDDOT = DBLE(QDDOT)
       RETURN
 *
-*     End of QDSDOT
+*     End of DQDDOT
 *
       END

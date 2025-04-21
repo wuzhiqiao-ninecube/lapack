@@ -8,13 +8,13 @@
 *  Definition:
 *  ===========
 *
-*       REAL FUNCTION QCASUM(N,CX,INCX)
+*       REAL*16 FUNCTION QCASUM(N,XX,INCX)
 *
 *       .. Scalar Arguments ..
 *       INTEGER INCX,N
 *       ..
 *       .. Array Arguments ..
-*       COMPLEX CX(*)
+*       COMPLEX*32 XX(*)
 *       ..
 *
 *
@@ -24,7 +24,7 @@
 *> \verbatim
 *>
 *>    QCASUM takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
-*>    returns a single precision result.
+*>    returns a quadrulpe precision result.
 *> \endverbatim
 *
 *  Arguments:
@@ -36,15 +36,15 @@
 *>         number of elements in input vector(s)
 *> \endverbatim
 *>
-*> \param[in,out] CX
+*> \param[in,out] XX
 *> \verbatim
-*>          CX is COMPLEX array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
+*>          XX is COMPLEX*32 array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
 *> \endverbatim
 *>
 *> \param[in] INCX
 *> \verbatim
 *>          INCX is INTEGER
-*>         storage spacing between elements of SX
+*>         storage spacing between elements of XX
 *> \endverbatim
 *
 *  Authors:
@@ -55,21 +55,20 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level1
+*> \ingroup asum
 *
 *> \par Further Details:
 *  =====================
 *>
 *> \verbatim
 *>
-*>     jack dongarra, linpack, 3/11/78.
+*>     jack dongarra, 3/11/78.
 *>     modified 3/93 to return if incx .le. 0.
 *>     modified 12/3/93, array(1) declarations changed to array(*)
 *> \endverbatim
 *>
 *  =====================================================================
-      REAL*16 FUNCTION QXASUM(N,CX,INCX)
-      IMPLICIT NONE
+      REAL*16 FUNCTION QXASUM(N,XX,INCX)
 *
 *  -- Reference BLAS level1 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
@@ -79,27 +78,28 @@
       INTEGER INCX,N
 *     ..
 *     .. Array Arguments ..
-      COMPLEX*32 CX(*)
+      COMPLEX*32 XX(*)
 *     ..
 *
 *  =====================================================================
 *
 *     .. Local Scalars ..
-      REAL*16 STEMP
+      REAL*16 QTEMP
       INTEGER I,NINCX
 *     ..
-*     .. Intrinsic Functions ..
-      INTRINSIC ABS,IMAG,REAL
+*     .. External Functions ..
+      REAL*16 QCABS1
+      EXTERNAL QCABS1
 *     ..
       QXASUM = 0.0Q0
-      STEMP = 0.0Q0
+      QTEMP = 0.0Q0
       IF (N.LE.0 .OR. INCX.LE.0) RETURN
       IF (INCX.EQ.1) THEN
 *
 *        code for increment equal to 1
 *
          DO I = 1,N
-            STEMP = STEMP + ABS(REAL(CX(I),16)) + ABS(IMAG(CX(I)))
+            QTEMP = QTEMP + QCABS1(XX(I))
          END DO
       ELSE
 *
@@ -107,10 +107,10 @@
 *
          NINCX = N*INCX
          DO I = 1,NINCX,INCX
-            STEMP = STEMP + ABS(REAL(CX(I),16)) + ABS(IMAG(CX(I)))
+            QTEMP = QTEMP + QCABS1(XX(I))
          END DO
       END IF
-      QXASUM = STEMP
+      QXASUM = QTEMP
       RETURN
 *
 *     End of QXASUM

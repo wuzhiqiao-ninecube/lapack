@@ -1,4 +1,4 @@
-*> \brief \b IDAMAX
+*> \brief \b IXAMAX
 *
 *  =========== DOCUMENTATION ===========
 *
@@ -8,13 +8,13 @@
 *  Definition:
 *  ===========
 *
-*       INTEGER FUNCTION IDAMAX(N,DX,INCX)
+*       INTEGER FUNCTION IXAMAX(N,XX,INCX)
 *
 *       .. Scalar Arguments ..
 *       INTEGER INCX,N
 *       ..
 *       .. Array Arguments ..
-*       DOUBLE PRECISION DX(*)
+*       COMPLEX*32 XX(*)
 *       ..
 *
 *
@@ -23,7 +23,7 @@
 *>
 *> \verbatim
 *>
-*>    IDAMAX finds the index of the first element having maximum absolute value.
+*>    IXAMAX finds the index of the first element having maximum |Re(.)| + |Im(.)|
 *> \endverbatim
 *
 *  Arguments:
@@ -35,15 +35,15 @@
 *>         number of elements in input vector(s)
 *> \endverbatim
 *>
-*> \param[in] DX
+*> \param[in] XX
 *> \verbatim
-*>          DX is DOUBLE PRECISION array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
+*>          XX is COMPLEX*32 array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
 *> \endverbatim
 *>
 *> \param[in] INCX
 *> \verbatim
 *>          INCX is INTEGER
-*>         storage spacing between elements of DX
+*>         storage spacing between elements of XX
 *> \endverbatim
 *
 *  Authors:
@@ -54,20 +54,20 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup aux_blas
+*> \ingroup iamax
 *
 *> \par Further Details:
 *  =====================
 *>
 *> \verbatim
 *>
-*>     jack dongarra, linpack, 3/11/78.
+*>     jack dongarra, 1/15/85.
 *>     modified 3/93 to return if incx .le. 0.
 *>     modified 12/3/93, array(1) declarations changed to array(*)
 *> \endverbatim
 *>
 *  =====================================================================
-      INTEGER FUNCTION IDAMAX(N,DX,INCX)
+      INTEGER FUNCTION IXAMAX(N,XX,INCX)
 *
 *  -- Reference BLAS level1 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
@@ -77,31 +77,32 @@
       INTEGER INCX,N
 *     ..
 *     .. Array Arguments ..
-      DOUBLE PRECISION DX(*)
+      COMPLEX*32 XX(*)
 *     ..
 *
 *  =====================================================================
 *
 *     .. Local Scalars ..
-      DOUBLE PRECISION DMAX
+      REAL*16 QMAX
       INTEGER I,IX
 *     ..
-*     .. Intrinsic Functions ..
-      INTRINSIC DABS
+*     .. External Functions ..
+      REAL*16 QCABS1
+      EXTERNAL QCABS1
 *     ..
-      IDAMAX = 0
+      IXAMAX = 0
       IF (N.LT.1 .OR. INCX.LE.0) RETURN
-      IDAMAX = 1
+      IXAMAX = 1
       IF (N.EQ.1) RETURN
       IF (INCX.EQ.1) THEN
 *
 *        code for increment equal to 1
 *
-         DMAX = DABS(DX(1))
+         QMAX = QCABS1(XX(1))
          DO I = 2,N
-            IF (DABS(DX(I)).GT.DMAX) THEN
-               IDAMAX = I
-               DMAX = DABS(DX(I))
+            IF (QCABS1(XX(I)).GT.QMAX) THEN
+               IXAMAX = I
+               QMAX = QCABS1(XX(I))
             END IF
          END DO
       ELSE
@@ -109,18 +110,18 @@
 *        code for increment not equal to 1
 *
          IX = 1
-         DMAX = DABS(DX(1))
+         QMAX = QCABS1(XX(1))
          IX = IX + INCX
          DO I = 2,N
-            IF (DABS(DX(IX)).GT.DMAX) THEN
-               IDAMAX = I
-               DMAX = DABS(DX(IX))
+            IF (QCABS1(XX(IX)).GT.QMAX) THEN
+               IXAMAX = I
+               QMAX = QCABS1(XX(IX))
             END IF
             IX = IX + INCX
          END DO
       END IF
       RETURN
 *
-*     End of IDAMAX
+*     End of IXAMAX
 *
       END

@@ -14,7 +14,7 @@
 !       INTEGER INCX,N
 !       ..
 !       .. Array Arguments ..
-!       COMPLEX X(*)
+!       COMPLEX*32 X(*)
 !       ..
 !
 !
@@ -40,7 +40,7 @@
 !>
 !> \param[in] X
 !> \verbatim
-!>          X is COMPLEX array, dimension (N)
+!>          X is COMPLEX*32 array, dimension (N)
 !>         complex vector with N elements
 !> \endverbatim
 !>
@@ -61,7 +61,7 @@
 !
 !> \date August 2016
 !
-!> \ingroup single_blas_level1
+!> \ingroup nrm2
 !
 !> \par Contributors:
 !  ==================
@@ -100,15 +100,15 @@ function QXNRM2( n, x, incx )
    real(wp), parameter :: one  = 1.0_wp
    real(wp), parameter :: maxN = huge(0.0_wp)
 !  ..
-!  .. Blue's ccaling constants ..
+!  .. Blue's scaling constants ..
    real(wp), parameter :: tsml = real(radix(0._wp), wp)**ceiling( &
        (minexponent(0._wp) - 1) * 0.5_wp)
    real(wp), parameter :: tbig = real(radix(0._wp), wp)**floor( &
        (maxexponent(0._wp) - digits(0._wp) + 1) * 0.5_wp)
    real(wp), parameter :: ssml = real(radix(0._wp), wp)**( - floor( &
-       (minexponent(0._wp) - 1) * 0.5_wp))
+       (minexponent(0._wp) - digits(0._wp)) * 0.5_wp))
    real(wp), parameter :: sbig = real(radix(0._wp), wp)**( - ceiling( &
-       (maxexponent(0._wp) - digits(0._wp) + 1) * 0.5_wp))
+       (maxexponent(0._wp) + digits(0._wp) - 1) * 0.5_wp))
 !  ..
 !  .. Scalar Arguments ..
    integer :: incx, n
@@ -153,7 +153,7 @@ function QXNRM2( n, x, incx )
       else
          amed = amed + ax**2
       end if
-      ax = abs(imag(x(ix)))
+      ax = abs(aimag(x(ix)))
       if (ax > tbig) then
          abig = abig + (ax*sbig)**2
          notbig = .false.

@@ -59,13 +59,13 @@
 *>
 *> \param[in] ALPHA
 *> \verbatim
-*>          ALPHA is REAL
+*>          ALPHA is REAL*16
 *>           On entry, ALPHA specifies the scalar alpha.
 *> \endverbatim
 *>
 *> \param[in] X
 *> \verbatim
-*>          X is REAL array, dimension at least
+*>          X is REAL*16 array, dimension at least
 *>           ( 1 + ( n - 1 )*abs( INCX ) ).
 *>           Before entry, the incremented array X must contain the n
 *>           element vector x.
@@ -80,7 +80,7 @@
 *>
 *> \param[in,out] AP
 *> \verbatim
-*>          AP is REAL array, dimension at least
+*>          AP is REAL*16 array, dimension at least
 *>           ( ( n*( n + 1 ) )/2 ).
 *>           Before entry with  UPLO = 'U' or 'u', the array AP must
 *>           contain the upper triangular part of the symmetric matrix
@@ -106,7 +106,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level2
+*> \ingroup hpr
 *
 *> \par Further Details:
 *  =====================
@@ -124,7 +124,6 @@
 *>
 *  =====================================================================
       SUBROUTINE QSPR(UPLO,N,ALPHA,X,INCX,AP)
-      IMPLICIT NONE
 *
 *  -- Reference BLAS level2 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
@@ -143,7 +142,7 @@
 *
 *     .. Parameters ..
       REAL*16 ZERO
-      PARAMETER (ZERO=0.0E+0)
+      PARAMETER (ZERO=0.0Q+0)
 *     ..
 *     .. Local Scalars ..
       REAL*16 TEMP
