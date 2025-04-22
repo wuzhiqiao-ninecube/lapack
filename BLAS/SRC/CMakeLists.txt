@@ -37,16 +37,23 @@
 #  Level 1 BLAS
 #---------------------------------------------------------
 
-set(SBLAS1 isamax.f sasum.f saxpy.f scopy.f sdot.f snrm2.f90
-	srot.f srotg.f90 sscal.f sswap.f sdsdot.f srotmg.f srotm.f)
+set(SBLAS1 sasum.f saxpy.f scopy.f sdot.f sdsdot.f snrm2.f90
+	srot.f srotg.f90 srotm.f srotmg.f sscal.f sswap.f isamax.f )
 
-set(CBLAS1 scabs1.f scasum.f scnrm2.f90 icamax.f caxpy.f ccopy.f
-	cdotc.f cdotu.f csscal.f crotg.f90 cscal.f cswap.f csrot.f)
-
-set(DBLAS1 idamax.f dasum.f daxpy.f dcopy.f ddot.f dnrm2.f90
-	drot.f drotg.f90 dscal.f dsdot.f dswap.f drotmg.f drotm.f)
-
+set(DBLAS1 dasum.f daxpy.f dcopy.f ddot.f dsdot.f dnrm2.f90
+    drot.f drotg.f90 drotm.f drotmg.f dscal.f dswap.f idamax.f )
 set(DB1AUX sscal.f isamax.f)
+
+set(QBLAS1 qasum.f qaxpy.f qcopy.f qdot.f qddot.f qnrm2.f90
+        qrot.f qrotg.f90 qrotm.f qrotmg.f qscal.f qswap.f iqamax.f)
+set(DB1AUX sscal.f isamax.f)
+
+
+
+set(CBLAS1  scasum.f  caxpy.f ccopy.f cdotc.f cdotu.f scnrm2.f90
+           crotg.f90 cscal.f csscal.f cswap.f csrot.f scabs1.f icamax.f)
+
+
 
 set(ZBLAS1 dcabs1.f dzasum.f dznrm2.f90 izamax.f zaxpy.f zcopy.f
 	zdotc.f zdotu.f zdscal.f zrotg.f90 zscal.f zswap.f zdrot.f)
@@ -63,8 +70,7 @@ set(ZB1AUX
     dswap.f
     scabs1.f)
 
-set(QBLAS1 iqamax.f qasum.f qaxpy.f qcopy.f qdot.f qnrm2.f90
-qrot.f qrotg.f90 qscal.f qswap.f qdsdot.f qrotmg.f qrotm.f)
+
 
 set(XBLAS1 qcabs1.f qxasum.f qxnrm2.f90 ixamax.f xaxpy.f xcopy.f
 xdotc.f xdotu.f xqscal.f xrotg.f90 xscal.f xswap.f xqrot.f)
@@ -124,7 +130,7 @@ endif()
 if(BUILD_DOUBLE)
   list(APPEND SOURCES ${DBLAS1} ${DB1AUX} ${ALLBLAS} ${DBLAS2} ${DBLAS3} ${SBLAS3})
 endif()
-if(BUILD_QUAD)
+if(BUILD_QUADRUPLE)
   list(APPEND SOURCES ${QBLAS1} ${QB1AUX} ${ALLBLAS} ${QBLAS2} ${QBLAS3})
 endif()
 if(BUILD_COMPLEX)
