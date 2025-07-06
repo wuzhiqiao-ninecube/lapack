@@ -125,7 +125,7 @@
          IF (N.LT.4) RETURN
          MP1 = M + 1
          DO I = MP1,N,4
-            QY(I)   = QY(I)   + QA*QX(I)
+            QY(I) = QY(I) + QA*QX(I)
             QY(I+1) = QY(I+1) + QA*QX(I+1)
             QY(I+2) = QY(I+2) + QA*QX(I+2)
             QY(I+3) = QY(I+3) + QA*QX(I+3)

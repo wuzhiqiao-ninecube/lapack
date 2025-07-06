@@ -11,12 +11,12 @@
 *       SUBROUTINE QSYMM(SIDE,UPLO,M,N,ALPHA,A,LDA,B,LDB,BETA,C,LDC)
 *
 *       .. Scalar Arguments ..
-*       REAL ALPHA,BETA
+*       REAL*16 ALPHA,BETA
 *       INTEGER LDA,LDB,LDC,M,N
 *       CHARACTER SIDE,UPLO
 *       ..
 *       .. Array Arguments ..
-*       REAL A(LDA,*),B(LDB,*),C(LDC,*)
+*       REAL*16 A(LDA,*),B(LDB,*),C(LDC,*)
 *       ..
 *
 *
@@ -81,13 +81,13 @@
 *>
 *> \param[in] ALPHA
 *> \verbatim
-*>          ALPHA is REAL
+*>          ALPHA is REAL*16
 *>           On entry, ALPHA specifies the scalar alpha.
 *> \endverbatim
 *>
 *> \param[in] A
 *> \verbatim
-*>          A is REAL array, dimension ( LDA, ka ), where ka is
+*>          A is REAL*16 array, dimension ( LDA, ka ), where ka is
 *>           m  when  SIDE = 'L' or 'l'  and is  n otherwise.
 *>           Before entry  with  SIDE = 'L' or 'l',  the  m by m  part of
 *>           the array  A  must contain the  symmetric matrix,  such that
@@ -122,7 +122,7 @@
 *>
 *> \param[in] B
 *> \verbatim
-*>          B is REAL array, dimension ( LDB, N )
+*>          B is REAL*16 array, dimension ( LDB, N )
 *>           Before entry, the leading  m by n part of the array  B  must
 *>           contain the matrix B.
 *> \endverbatim
@@ -137,14 +137,14 @@
 *>
 *> \param[in] BETA
 *> \verbatim
-*>          BETA is REAL
+*>          BETA is REAL*16
 *>           On entry,  BETA  specifies the scalar  beta.  When  BETA  is
 *>           supplied as zero then C need not be set on input.
 *> \endverbatim
 *>
 *> \param[in,out] C
 *> \verbatim
-*>          C is REAL array, dimension ( LDC, N )
+*>          C is REAL*16 array, dimension ( LDC, N )
 *>           Before entry, the leading  m by n  part of the array  C must
 *>           contain the matrix  C,  except when  beta  is zero, in which
 *>           case C need not be set on entry.
@@ -168,7 +168,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level3
+*> \ingroup hemm
 *
 *> \par Further Details:
 *  =====================
@@ -186,7 +186,6 @@
 *>
 *  =====================================================================
       SUBROUTINE QSYMM(SIDE,UPLO,M,N,ALPHA,A,LDA,B,LDB,BETA,C,LDC)
-      IMPLICIT NONE
 *
 *  -- Reference BLAS level3 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
@@ -235,7 +234,8 @@
 *     Test the input parameters.
 *
       INFO = 0
-      IF ((.NOT.LSAME(SIDE,'L')) .AND. (.NOT.LSAME(SIDE,'R'))) THEN
+      IF ((.NOT.LSAME(SIDE,'L')) .AND.
+     +    (.NOT.LSAME(SIDE,'R'))) THEN
           INFO = 1
       ELSE IF ((.NOT.UPPER) .AND. (.NOT.LSAME(UPLO,'L'))) THEN
           INFO = 2

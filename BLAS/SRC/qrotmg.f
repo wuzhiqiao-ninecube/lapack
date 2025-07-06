@@ -8,13 +8,13 @@
 *  Definition:
 *  ===========
 *
-*       SUBROUTINE QROTMG(SD1,SD2,SX1,SY1,SPARAM)
+*       SUBROUTINE QROTMG(QD1,QD2,QX1,QY1,QPARAM)
 *
 *       .. Scalar Arguments ..
-*       REAL*16 SD1,SD2,SX1,SY1
+*       REAL*16 QD1,QD2,QX1,QY1
 *       ..
 *       .. Array Arguments ..
-*       REAL*16 SPARAM(5)
+*       REAL*16 QPARAM(5)
 *       ..
 *
 *
@@ -24,55 +24,55 @@
 *> \verbatim
 *>
 *>    CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
-*>    THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(SD1)*SX1,SQRT(SD2)*>    SY2)**T.
-*>    WITH SPARAM(1)=SFLAG, H HAS ONE OF THE FOLLOWING FORMS..
+*>    THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(QD1)*QX1,SQRT(QD2)*>    QY2)**T.
+*>    WITH QPARAM(1)=QFLAG, H HAS ONE OF THE FOLLOWING FORMS..
 *>
-*>    SFLAG=-1.E0     SFLAG=0.E0        SFLAG=1.E0     SFLAG=-2.E0
+*>    QFLAG=-1.Q0     QFLAG=0.Q0        QFLAG=1.Q0     QFLAG=-2.Q0
 *>
-*>      (SH11  SH12)    (1.E0  SH12)    (SH11  1.E0)    (1.E0  0.E0)
+*>      (QH11  QH12)    (1.Q0  QH12)    (QH11  1.Q0)    (1.Q0  0.Q0)
 *>    H=(          )    (          )    (          )    (          )
-*>      (SH21  SH22),   (SH21  1.E0),   (-1.E0 SH22),   (0.E0  1.E0).
-*>    LOCATIONS 2-4 OF SPARAM CONTAIN SH11,SH21,SH12, AND SH22
-*>    RESPECTIVELY. (VALUES OF 1.E0, -1.E0, OR 0.E0 IMPLIED BY THE
-*>    VALUE OF SPARAM(1) ARE NOT STORED IN SPARAM.)
+*>      (QH21  QH22),   (QH21  1.Q0),   (-1.Q0 QH22),   (0.Q0  1.Q0).
+*>    LOCATIONS 2-4 OF QPARAM CONTAIN QH11,QH21,QH12, AND QH22
+*>    RESPECTIVELY. (VALUES OF 1.Q0, -1.Q0, OR 0.Q0 IMPLIED BY THE
+*>    VALUE OF QPARAM(1) ARE NOT STORED IN QPARAM.)
 *>
 *>    THE VALUES OF GAMSQ AND RGAMSQ SET IN THE DATA STATEMENT MAY BE
 *>    INEXACT.  THIS IS OK AS THEY ARE ONLY USED FOR TESTING THE SIZE
-*>    OF SD1 AND SD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
+*>    OF QD1 AND QD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
 *>
 *> \endverbatim
 *
 *  Arguments:
 *  ==========
 *
-*> \param[in,out] SD1
+*> \param[in,out] QD1
 *> \verbatim
-*>          SD1 is REAL
+*>          QD1 is REAL*16
 *> \endverbatim
 *>
-*> \param[in,out] SD2
+*> \param[in,out] QD2
 *> \verbatim
-*>          SD2 is REAL
+*>          QD2 is REAL*16
 *> \endverbatim
 *>
-*> \param[in,out] SX1
+*> \param[in,out] QX1
 *> \verbatim
-*>          SX1 is REAL
+*>          QX1 is REAL*16
 *> \endverbatim
 *>
-*> \param[in] SY1
+*> \param[in] QY1
 *> \verbatim
-*>          SY1 is REAL
+*>          QY1 is REAL*16
 *> \endverbatim
 *>
-*> \param[out] SPARAM
+*> \param[out] QPARAM
 *> \verbatim
-*>          SPARAM is REAL array, dimension (5)
-*>     SPARAM(1)=SFLAG
-*>     SPARAM(2)=SH11
-*>     SPARAM(3)=SH21
-*>     SPARAM(4)=SH12
-*>     SPARAM(5)=SH22
+*>          QPARAM is REAL*16 array, dimension (5)
+*>     QPARAM(1)=QFLAG
+*>     QPARAM(2)=QH11
+*>     QPARAM(3)=QH21
+*>     QPARAM(4)=QH12
+*>     QPARAM(5)=QH22
 *> \endverbatim
 *
 *  Authors:
@@ -83,28 +83,27 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level1
+*> \ingroup rotmg
 *
 *  =====================================================================
-      SUBROUTINE QROTMG(SD1,SD2,SX1,SY1,SPARAM)
-      IMPLICIT NONE
+      SUBROUTINE QROTMG(QD1,QD2,QX1,QY1,QPARAM)
 *
 *  -- Reference BLAS level1 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
 *
 *     .. Scalar Arguments ..
-      REAL*16 SD1,SD2,SX1,SY1
+      REAL*16 QD1,QD2,QX1,QY1
 *     ..
 *     .. Array Arguments ..
-      REAL*16 SPARAM(5)
+      REAL*16 QPARAM(5)
 *     ..
 *
 *  =====================================================================
 *
 *     .. Local Scalars ..
-      REAL*16 GAM,GAMSQ,ONE,RGAMSQ,SFLAG,SH11,SH12,SH21,SH22,SP1,
-     $     SP2,SQ1,SQ2,STEMP,SU,TWO,ZERO
+      REAL*16 QFLAG,QH11,QH12,QH21,QH22,QP1,QP2,QQ1,QQ2,QTEMP,
+     $     QU,GAM,GAMSQ,ONE,RGAMSQ,TWO,ZERO
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC ABS
@@ -115,145 +114,145 @@
       DATA GAM,GAMSQ,RGAMSQ/4096.Q0,1.67772Q7,5.96046Q-8/
 *     ..
 
-      IF (SD1.LT.ZERO) THEN
-*        GO ZERO-H-D-AND-SX1..
-         SFLAG = -ONE
-         SH11 = ZERO
-         SH12 = ZERO
-         SH21 = ZERO
-         SH22 = ZERO
+      IF (QD1.LT.ZERO) THEN
+*        GO ZERO-H-D-AND-QX1..
+         QFLAG = -ONE
+         QH11 = ZERO
+         QH12 = ZERO
+         QH21 = ZERO
+         QH22 = ZERO
 *
-         SD1 = ZERO
-         SD2 = ZERO
-         SX1 = ZERO
+         QD1 = ZERO
+         QD2 = ZERO
+         QX1 = ZERO
       ELSE
-*        CASE-SD1-NONNEGATIVE
-         SP2 = SD2*SY1
-         IF (SP2.EQ.ZERO) THEN
-            SFLAG = -TWO
-            SPARAM(1) = SFLAG
+*        CASE-QD1-NONNEGATIVE
+         QP2 = QD2*QY1
+         IF (QP2.EQ.ZERO) THEN
+            QFLAG = -TWO
+            QPARAM(1) = QFLAG
             RETURN
          END IF
 *        REGULAR-CASE..
-         SP1 = SD1*SX1
-         SQ2 = SP2*SY1
-         SQ1 = SP1*SX1
+         QP1 = QD1*QX1
+         QQ2 = QP2*QY1
+         QQ1 = QP1*QX1
 *
-         IF (ABS(SQ1).GT.ABS(SQ2)) THEN
-            SH21 = -SY1/SX1
-            SH12 = SP2/SP1
+         IF (ABS(QQ1).GT.ABS(QQ2)) THEN
+            QH21 = -QY1/QX1
+            QH12 = QP2/QP1
 *
-            SU = ONE - SH12*SH21
+            QU = ONE - QH12*QH21
 *
-           IF (SU.GT.ZERO) THEN
-             SFLAG = ZERO
-             SD1 = SD1/SU
-             SD2 = SD2/SU
-             SX1 = SX1*SU
+           IF (QU.GT.ZERO) THEN
+             QFLAG = ZERO
+             QD1 = QD1/QU
+             QD2 = QD2/QU
+             QX1 = QX1*QU
            ELSE
 *            This code path if here for safety. We do not expect this
 *            condition to ever hold except in edge cases with rounding
 *            errors. See DOI: 10.1145/355841.355847
-             SFLAG = -ONE
-             SH11 = ZERO
-             SH12 = ZERO
-             SH21 = ZERO
-             SH22 = ZERO
+             QFLAG = -ONE
+             QH11 = ZERO
+             QH12 = ZERO
+             QH21 = ZERO
+             QH22 = ZERO
 *
-             SD1 = ZERO
-             SD2 = ZERO
-             SX1 = ZERO
+             QD1 = ZERO
+             QD2 = ZERO
+             QX1 = ZERO
            END IF
          ELSE
 
-            IF (SQ2.LT.ZERO) THEN
-*              GO ZERO-H-D-AND-SX1..
-               SFLAG = -ONE
-               SH11 = ZERO
-               SH12 = ZERO
-               SH21 = ZERO
-               SH22 = ZERO
+            IF (QQ2.LT.ZERO) THEN
+*              GO ZERO-H-D-AND-QX1..
+               QFLAG = -ONE
+               QH11 = ZERO
+               QH12 = ZERO
+               QH21 = ZERO
+               QH22 = ZERO
 *
-               SD1 = ZERO
-               SD2 = ZERO
-               SX1 = ZERO
+               QD1 = ZERO
+               QD2 = ZERO
+               QX1 = ZERO
             ELSE
-               SFLAG = ONE
-               SH11 = SP1/SP2
-               SH22 = SX1/SY1
-               SU = ONE + SH11*SH22
-               STEMP = SD2/SU
-               SD2 = SD1/SU
-               SD1 = STEMP
-               SX1 = SY1*SU
+               QFLAG = ONE
+               QH11 = QP1/QP2
+               QH22 = QX1/QY1
+               QU = ONE + QH11*QH22
+               QTEMP = QD2/QU
+               QD2 = QD1/QU
+               QD1 = QTEMP
+               QX1 = QY1*QU
             END IF
          END IF
 
 *     PROCEDURE..SCALE-CHECK
-         IF (SD1.NE.ZERO) THEN
-            DO WHILE ((SD1.LE.RGAMSQ) .OR. (SD1.GE.GAMSQ))
-               IF (SFLAG.EQ.ZERO) THEN
-                  SH11 = ONE
-                  SH22 = ONE
-                  SFLAG = -ONE
+         IF (QD1.NE.ZERO) THEN
+            DO WHILE ((QD1.LE.RGAMSQ) .OR. (QD1.GE.GAMSQ))
+               IF (QFLAG.EQ.ZERO) THEN
+                  QH11 = ONE
+                  QH22 = ONE
+                  QFLAG = -ONE
                ELSE
-                  SH21 = -ONE
-                  SH12 = ONE
-                  SFLAG = -ONE
+                  QH21 = -ONE
+                  QH12 = ONE
+                  QFLAG = -ONE
                END IF
-               IF (SD1.LE.RGAMSQ) THEN
-                  SD1 = SD1*GAM**2
-                  SX1 = SX1/GAM
-                  SH11 = SH11/GAM
-                  SH12 = SH12/GAM
+               IF (QD1.LE.RGAMSQ) THEN
+                  QD1 = QD1*GAM**2
+                  QX1 = QX1/GAM
+                  QH11 = QH11/GAM
+                  QH12 = QH12/GAM
                ELSE
-                  SD1 = SD1/GAM**2
-                  SX1 = SX1*GAM
-                  SH11 = SH11*GAM
-                  SH12 = SH12*GAM
+                  QD1 = QD1/GAM**2
+                  QX1 = QX1*GAM
+                  QH11 = QH11*GAM
+                  QH12 = QH12*GAM
                END IF
             ENDDO
          END IF
 
-         IF (SD2.NE.ZERO) THEN
-            DO WHILE ( (ABS(SD2).LE.RGAMSQ) .OR. (ABS(SD2).GE.GAMSQ) )
-               IF (SFLAG.EQ.ZERO) THEN
-                  SH11 = ONE
-                  SH22 = ONE
-                  SFLAG = -ONE
+         IF (QD2.NE.ZERO) THEN
+            DO WHILE ( (ABS(QD2).LE.RGAMSQ) .OR. (ABS(QD2).GE.GAMSQ) )
+               IF (QFLAG.EQ.ZERO) THEN
+                  QH11 = ONE
+                  QH22 = ONE
+                  QFLAG = -ONE
                ELSE
-                  SH21 = -ONE
-                  SH12 = ONE
-                  SFLAG = -ONE
+                  QH21 = -ONE
+                  QH12 = ONE
+                  QFLAG = -ONE
                END IF
-               IF (ABS(SD2).LE.RGAMSQ) THEN
-                  SD2 = SD2*GAM**2
-                  SH21 = SH21/GAM
-                  SH22 = SH22/GAM
+               IF (ABS(QD2).LE.RGAMSQ) THEN
+                  QD2 = QD2*GAM**2
+                  QH21 = QH21/GAM
+                  QH22 = QH22/GAM
                ELSE
-                  SD2 = SD2/GAM**2
-                  SH21 = SH21*GAM
-                  SH22 = SH22*GAM
+                  QD2 = QD2/GAM**2
+                  QH21 = QH21*GAM
+                  QH22 = QH22*GAM
                END IF
             END DO
          END IF
 
       END IF
 
-      IF (SFLAG.LT.ZERO) THEN
-         SPARAM(2) = SH11
-         SPARAM(3) = SH21
-         SPARAM(4) = SH12
-         SPARAM(5) = SH22
-      ELSE IF (SFLAG.EQ.ZERO) THEN
-         SPARAM(3) = SH21
-         SPARAM(4) = SH12
+      IF (QFLAG.LT.ZERO) THEN
+         QPARAM(2) = QH11
+         QPARAM(3) = QH21
+         QPARAM(4) = QH12
+         QPARAM(5) = QH22
+      ELSE IF (QFLAG.EQ.ZERO) THEN
+         QPARAM(3) = QH21
+         QPARAM(4) = QH12
       ELSE
-         SPARAM(2) = SH11
-         SPARAM(5) = SH22
+         QPARAM(2) = QH11
+         QPARAM(5) = QH22
       END IF
 
-      SPARAM(1) = SFLAG
+      QPARAM(1) = QFLAG
       RETURN
 *
 *     End of QROTMG

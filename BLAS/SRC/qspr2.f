@@ -11,12 +11,12 @@
 *       SUBROUTINE QSPR2(UPLO,N,ALPHA,X,INCX,Y,INCY,AP)
 *
 *       .. Scalar Arguments ..
-*       REAL ALPHA
+*       REAL*16 ALPHA
 *       INTEGER INCX,INCY,N
 *       CHARACTER UPLO
 *       ..
 *       .. Array Arguments ..
-*       REAL AP(*),X(*),Y(*)
+*       REAL*16 AP(*),X(*),Y(*)
 *       ..
 *
 *
@@ -59,13 +59,13 @@
 *>
 *> \param[in] ALPHA
 *> \verbatim
-*>          ALPHA is REAL
+*>          ALPHA is REAL*16
 *>           On entry, ALPHA specifies the scalar alpha.
 *> \endverbatim
 *>
 *> \param[in] X
 *> \verbatim
-*>          X is REAL array, dimension at least
+*>          X is REAL*16 array, dimension at least
 *>           ( 1 + ( n - 1 )*abs( INCX ) ).
 *>           Before entry, the incremented array X must contain the n
 *>           element vector x.
@@ -80,7 +80,7 @@
 *>
 *> \param[in] Y
 *> \verbatim
-*>          Y is REAL array, dimension at least
+*>          Y is REAL*16 array, dimension at least
 *>           ( 1 + ( n - 1 )*abs( INCY ) ).
 *>           Before entry, the incremented array Y must contain the n
 *>           element vector y.
@@ -95,7 +95,7 @@
 *>
 *> \param[in,out] AP
 *> \verbatim
-*>          AP is REAL array, dimension at least
+*>          AP is REAL*16 array, dimension at least
 *>           ( ( n*( n + 1 ) )/2 ).
 *>           Before entry with  UPLO = 'U' or 'u', the array AP must
 *>           contain the upper triangular part of the symmetric matrix
@@ -121,7 +121,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level2
+*> \ingroup hpr2
 *
 *> \par Further Details:
 *  =====================
@@ -139,7 +139,6 @@
 *>
 *  =====================================================================
       SUBROUTINE QSPR2(UPLO,N,ALPHA,X,INCX,Y,INCY,AP)
-      IMPLICIT NONE
 *
 *  -- Reference BLAS level2 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --

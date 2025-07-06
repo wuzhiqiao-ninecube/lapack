@@ -8,14 +8,14 @@
 *  Definition:
 *  ===========
 *
-*       SUBROUTINE QSCAL(N,SA,SX,INCX)
+*       SUBROUTINE QSCAL(N,QA,QX,INCX)
 *
 *       .. Scalar Arguments ..
-*       REAL*16 SA
+*       REAL*16 QA
 *       INTEGER INCX,N
 *       ..
 *       .. Array Arguments ..
-*       REAL*16 SX(*)
+*       REAL*16 QX(*)
 *       ..
 *
 *
@@ -37,21 +37,21 @@
 *>         number of elements in input vector(s)
 *> \endverbatim
 *>
-*> \param[in] SA
+*> \param[in] QA
 *> \verbatim
-*>          SA is REAL
-*>           On entry, SA specifies the scalar alpha.
+*>          QA is REAL*16
+*>           On entry, QA specifies the scalar alpha.
 *> \endverbatim
 *>
-*> \param[in,out] SX
+*> \param[in,out] QX
 *> \verbatim
-*>          SX is REAL array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
+*>          QX is REAL*16 array, dimension ( 1 + ( N - 1 )*abs( INCX ) )
 *> \endverbatim
 *>
 *> \param[in] INCX
 *> \verbatim
 *>          INCX is INTEGER
-*>         storage spacing between elements of SX
+*>         storage spacing between elements of QX
 *> \endverbatim
 *
 *  Authors:
@@ -62,7 +62,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level1
+*> \ingroup scal
 *
 *> \par Further Details:
 *  =====================
@@ -75,30 +75,32 @@
 *> \endverbatim
 *>
 *  =====================================================================
-      SUBROUTINE QSCAL(N,SA,SX,INCX)
-      IMPLICIT NONE
+      SUBROUTINE QSCAL(N,QA,QX,INCX)
 *
 *  -- Reference BLAS level1 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
 *
 *     .. Scalar Arguments ..
-      REAL*16 SA
+      REAL*16 QA
       INTEGER INCX,N
 *     ..
 *     .. Array Arguments ..
-      REAL*16 SX(*)
+      REAL*16 QX(*)
 *     ..
 *
 *  =====================================================================
 *
 *     .. Local Scalars ..
       INTEGER I,M,MP1,NINCX
+*     .. Parameters ..
+      REAL*16  ONE
+      PARAMETER (ONE=1.0Q+0)
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC MOD
 *     ..
-      IF (N.LE.0 .OR. INCX.LE.0) RETURN
+      IF (N.LE.0 .OR. INCX.LE.0 .OR. QA.EQ.ONE) RETURN
       IF (INCX.EQ.1) THEN
 *
 *        code for increment equal to 1
@@ -109,17 +111,17 @@
          M = MOD(N,5)
          IF (M.NE.0) THEN
             DO I = 1,M
-               SX(I) = SA*SX(I)
+               QX(I) = QA*QX(I)
             END DO
             IF (N.LT.5) RETURN
          END IF
          MP1 = M + 1
          DO I = MP1,N,5
-            SX(I) = SA*SX(I)
-            SX(I+1) = SA*SX(I+1)
-            SX(I+2) = SA*SX(I+2)
-            SX(I+3) = SA*SX(I+3)
-            SX(I+4) = SA*SX(I+4)
+            QX(I) = QA*QX(I)
+            QX(I+1) = QA*QX(I+1)
+            QX(I+2) = QA*QX(I+2)
+            QX(I+3) = QA*QX(I+3)
+            QX(I+4) = QA*QX(I+4)
          END DO
       ELSE
 *
@@ -127,7 +129,7 @@
 *
          NINCX = N*INCX
          DO I = 1,NINCX,INCX
-            SX(I) = SA*SX(I)
+            QX(I) = QA*QX(I)
          END DO
       END IF
       RETURN

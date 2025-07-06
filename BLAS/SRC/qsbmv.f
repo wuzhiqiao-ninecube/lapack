@@ -66,13 +66,13 @@
 *>
 *> \param[in] ALPHA
 *> \verbatim
-*>          ALPHA is REAL
+*>          ALPHA is REAL*16
 *>           On entry, ALPHA specifies the scalar alpha.
 *> \endverbatim
 *>
 *> \param[in] A
 *> \verbatim
-*>          A is REAL array, dimension ( LDA, N )
+*>          A is REAL*16 array, dimension ( LDA, N )
 *>           Before entry with UPLO = 'U' or 'u', the leading ( k + 1 )
 *>           by n part of the array A must contain the upper triangular
 *>           band part of the symmetric matrix, supplied column by
@@ -120,7 +120,7 @@
 *>
 *> \param[in] X
 *> \verbatim
-*>          X is REAL array, dimension at least
+*>          X is REAL*16 array, dimension at least
 *>           ( 1 + ( n - 1 )*abs( INCX ) ).
 *>           Before entry, the incremented array X must contain the
 *>           vector x.
@@ -135,13 +135,13 @@
 *>
 *> \param[in] BETA
 *> \verbatim
-*>          BETA is REAL
+*>          BETA is REAL*16
 *>           On entry, BETA specifies the scalar beta.
 *> \endverbatim
 *>
 *> \param[in,out] Y
 *> \verbatim
-*>          Y is REAL array, dimension at least
+*>          Y is REAL*16 array, dimension at least
 *>           ( 1 + ( n - 1 )*abs( INCY ) ).
 *>           Before entry, the incremented array Y must contain the
 *>           vector y. On exit, Y is overwritten by the updated vector y.
@@ -162,7 +162,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level2
+*> \ingroup hbmv
 *
 *> \par Further Details:
 *  =====================
@@ -181,7 +181,6 @@
 *>
 *  =====================================================================
       SUBROUTINE QSBMV(UPLO,N,K,ALPHA,A,LDA,X,INCX,BETA,Y,INCY)
-      IMPLICIT NONE
 *
 *  -- Reference BLAS level2 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --

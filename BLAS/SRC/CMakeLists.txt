@@ -6,9 +6,13 @@
 #       CBLAS1 -- Single precision complex BLAS routines
 #       DBLAS1 -- Double precision real BLAS routines
 #       ZBLAS1 -- Double precision complex BLAS routines
+#       QBLAS1 -- Quadruple precision real BLAS routines
+#       XBLAS1 -- Quadruple precision complex BLAS routines
 #
 #       CB1AUX -- Real BLAS routines called by complex routines
 #       ZB1AUX -- D.P. real BLAS routines called by d.p. complex
+#                 routines
+#       XB1AUX -- Q.P. real BLAS routines called by q.p. complex
 #                 routines
 #
 #      ALLBLAS -- Auxiliary routines for Level 2 and 3 BLAS
@@ -17,11 +21,15 @@
 #       CBLAS2 -- Single precision complex BLAS2 routines
 #       DBLAS2 -- Double precision real BLAS2 routines
 #       ZBLAS2 -- Double precision complex BLAS2 routines
+#       QBLAS2 -- Quadruple precision real BLAS2 routines
+#       XBLAS2 -- Quadruple precision complex BLAS2 routines
 #
 #       SBLAS3 -- Single precision real BLAS3 routines
 #       CBLAS3 -- Single precision complex BLAS3 routines
 #       DBLAS3 -- Double precision real BLAS3 routines
 #       ZBLAS3 -- Double precision complex BLAS3 routines
+#       QBLAS3 -- Quadruple precision real BLAS3 routines
+#       XBLAS3 -- Quadruple precision complex BLAS3 routines
 #
 #######################################################################
 
@@ -29,16 +37,23 @@
 #  Level 1 BLAS
 #---------------------------------------------------------
 
-set(SBLAS1 isamax.f sasum.f saxpy.f scopy.f sdot.f snrm2.f90
-	srot.f srotg.f90 sscal.f sswap.f sdsdot.f srotmg.f srotm.f)
+set(SBLAS1 sasum.f saxpy.f scopy.f sdot.f sdsdot.f snrm2.f90
+	srot.f srotg.f90 srotm.f srotmg.f sscal.f sswap.f isamax.f )
 
-set(CBLAS1 scabs1.f scasum.f scnrm2.f90 icamax.f caxpy.f ccopy.f
-	cdotc.f cdotu.f csscal.f crotg.f90 cscal.f cswap.f csrot.f)
-
-set(DBLAS1 idamax.f dasum.f daxpy.f dcopy.f ddot.f dnrm2.f90
-	drot.f drotg.f90 dscal.f dsdot.f dswap.f drotmg.f drotm.f)
-
+set(DBLAS1 dasum.f daxpy.f dcopy.f ddot.f dsdot.f dnrm2.f90
+    drot.f drotg.f90 drotm.f drotmg.f dscal.f dswap.f idamax.f )
 set(DB1AUX sscal.f isamax.f)
+
+set(QBLAS1 qasum.f qaxpy.f qcopy.f qdot.f qddot.f qnrm2.f90
+        qrot.f qrotg.f90 qrotm.f qrotmg.f qscal.f qswap.f iqamax.f)
+set(DB1AUX sscal.f isamax.f)
+
+
+
+set(CBLAS1  scasum.f  caxpy.f ccopy.f cdotc.f cdotu.f scnrm2.f90
+           crotg.f90 cscal.f csscal.f cswap.f csrot.f scabs1.f icamax.f)
+
+
 
 set(ZBLAS1 dcabs1.f dzasum.f dznrm2.f90 izamax.f zaxpy.f zcopy.f
 	zdotc.f zdotu.f zdscal.f zrotg.f90 zscal.f zswap.f zdrot.f)
@@ -55,6 +70,10 @@ set(ZB1AUX
     dswap.f
     scabs1.f)
 
+
+
+set(XBLAS1 qcabs1.f qxasum.f qxnrm2.f90 ixamax.f xaxpy.f xcopy.f
+xdotc.f xdotu.f xqscal.f xrotg.f90 xscal.f xswap.f xqrot.f)
 #---------------------------------------------------------------------
 #  Auxiliary routines needed by both the Level 2 and Level 3 BLAS
 #---------------------------------------------------------------------
@@ -79,6 +98,13 @@ set(ZBLAS2 zgemv.f zgbmv.f zhemv.f zhbmv.f zhpmv.f
 	ztrmv.f ztbmv.f ztpmv.f ztrsv.f ztbsv.f ztpsv.f
 	zgerc.f zgeru.f zher.f zhpr.f zher2.f zhpr2.f)
 
+set(QBLAS2 qgemv.f qgbmv.f qsymv.f qsbmv.f qspmv.f
+	qtrmv.f qtbmv.f qtpmv.f qtrsv.f qtbsv.f qtpsv.f
+	qger.f qsyr.f qspr.f qsyr2.f qspr2.f)
+
+set(XBLAS2 xgemv.f xgbmv.f xhemv.f xhbmv.f xhpmv.f
+	xtrmv.f xtbmv.f xtpmv.f xtrsv.f xtbsv.f xtpsv.f
+	xgerc.f xgeru.f xher.f xhpr.f xher2.f xhpr2.f)
 #---------------------------------------------------------
 #  Level 3 BLAS
 #---------------------------------------------------------
@@ -104,7 +130,7 @@ endif()
 if(BUILD_DOUBLE)
   list(APPEND SOURCES ${DBLAS1} ${DB1AUX} ${ALLBLAS} ${DBLAS2} ${DBLAS3} ${SBLAS3})
 endif()
-if(BUILD_QUAD)
+if(BUILD_QUADRUPLE)
   list(APPEND SOURCES ${QBLAS1} ${QB1AUX} ${ALLBLAS} ${QBLAS2} ${QBLAS3})
 endif()
 if(BUILD_COMPLEX)

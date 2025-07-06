@@ -11,7 +11,7 @@
 *       SUBROUTINE QSYR(UPLO,N,ALPHA,X,INCX,A,LDA)
 *
 *       .. Scalar Arguments ..
-*       REAL ALPHA
+*       REAL*16 ALPHA
 *       INTEGER INCX,LDA,N
 *       CHARACTER UPLO
 *       ..
@@ -25,7 +25,7 @@
 *>
 *> \verbatim
 *>
-*> SSYR   performs the symmetric rank 1 operation
+*> QSYR   performs the symmetric rank 1 operation
 *>
 *>    A := alpha*x*x**T + A,
 *>
@@ -59,13 +59,13 @@
 *>
 *> \param[in] ALPHA
 *> \verbatim
-*>          ALPHA is REAL
+*>          ALPHA is REAL*16
 *>           On entry, ALPHA specifies the scalar alpha.
 *> \endverbatim
 *>
 *> \param[in] X
 *> \verbatim
-*>          X is REAL array, dimension at least
+*>          X is REAL*16 array, dimension at least
 *>           ( 1 + ( n - 1 )*abs( INCX ) ).
 *>           Before entry, the incremented array X must contain the n
 *>           element vector x.
@@ -80,7 +80,7 @@
 *>
 *> \param[in,out] A
 *> \verbatim
-*>          A is REAL array, dimension ( LDA, N )
+*>          A is REAL*16 array, dimension ( LDA, N )
 *>           Before entry with  UPLO = 'U' or 'u', the leading n by n
 *>           upper triangular part of the array A must contain the upper
 *>           triangular part of the symmetric matrix and the strictly
@@ -111,7 +111,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level2
+*> \ingroup her
 *
 *> \par Further Details:
 *  =====================
@@ -129,7 +129,6 @@
 *>
 *  =====================================================================
       SUBROUTINE QSYR(UPLO,N,ALPHA,X,INCX,A,LDA)
-      IMPLICIT NONE
 *
 *  -- Reference BLAS level2 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --

@@ -84,7 +84,7 @@
 *  =====================================================================
 *
 *     .. Local Scalars ..
-      DOUBLE PRECISION STEMP
+      DOUBLE PRECISION DTEMP
       INTEGER I,NINCX
 *     ..
 *     .. External Functions ..
@@ -92,14 +92,14 @@
       EXTERNAL DCABS1
 *     ..
       DZASUM = 0.0d0
-      STEMP = 0.0d0
+      DTEMP = 0.0d0
       IF (N.LE.0 .OR. INCX.LE.0) RETURN
       IF (INCX.EQ.1) THEN
 *
 *        code for increment equal to 1
 *
          DO I = 1,N
-            STEMP = STEMP + DCABS1(ZX(I))
+            DTEMP = DTEMP + DCABS1(ZX(I))
          END DO
       ELSE
 *
@@ -107,10 +107,10 @@
 *
          NINCX = N*INCX
          DO I = 1,NINCX,INCX
-            STEMP = STEMP + DCABS1(ZX(I))
+            DTEMP = DTEMP + DCABS1(ZX(I))
          END DO
       END IF
-      DZASUM = STEMP
+      DZASUM = DTEMP
       RETURN
 *
 *     End of DZASUM

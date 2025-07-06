@@ -15,7 +15,7 @@
 *       CHARACTER DIAG,TRANS,UPLO
 *       ..
 *       .. Array Arguments ..
-*       REAL A(LDA,*),X(*)
+*       REAL*16 A(LDA,*),X(*)
 *       ..
 *
 *
@@ -94,7 +94,7 @@
 *>
 *> \param[in] A
 *> \verbatim
-*>          A is REAL array, dimension ( LDA, N )
+*>          A is REAL*16 array, dimension ( LDA, N )
 *>           Before entry with UPLO = 'U' or 'u', the leading ( k + 1 )
 *>           by n part of the array A must contain the upper triangular
 *>           band part of the matrix of coefficients, supplied column by
@@ -146,7 +146,7 @@
 *>
 *> \param[in,out] X
 *> \verbatim
-*>          X is REAL array, dimension at least
+*>          X is REAL*16 array, dimension at least
 *>           ( 1 + ( n - 1 )*abs( INCX ) ).
 *>           Before entry, the incremented array X must contain the n
 *>           element right-hand side vector b. On exit, X is overwritten
@@ -168,7 +168,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level2
+*> \ingroup tbsv
 *
 *> \par Further Details:
 *  =====================
@@ -186,7 +186,6 @@
 *>
 *  =====================================================================
       SUBROUTINE QTBSV(UPLO,TRANS,DIAG,N,K,A,LDA,X,INCX)
-      IMPLICIT NONE
 *
 *  -- Reference BLAS level2 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
@@ -227,10 +226,12 @@
       INFO = 0
       IF (.NOT.LSAME(UPLO,'U') .AND. .NOT.LSAME(UPLO,'L')) THEN
           INFO = 1
-      ELSE IF (.NOT.LSAME(TRANS,'N') .AND. .NOT.LSAME(TRANS,'T') .AND.
+      ELSE IF (.NOT.LSAME(TRANS,'N') .AND.
+     +         .NOT.LSAME(TRANS,'T') .AND.
      +         .NOT.LSAME(TRANS,'C')) THEN
           INFO = 2
-      ELSE IF (.NOT.LSAME(DIAG,'U') .AND. .NOT.LSAME(DIAG,'N')) THEN
+      ELSE IF (.NOT.LSAME(DIAG,'U') .AND.
+     +         .NOT.LSAME(DIAG,'N')) THEN
           INFO = 3
       ELSE IF (N.LT.0) THEN
           INFO = 4

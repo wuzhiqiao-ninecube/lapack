@@ -15,7 +15,7 @@
 *       CHARACTER DIAG,TRANS,UPLO
 *       ..
 *       .. Array Arguments ..
-*       REAL AP(*),X(*)
+*       REAL*16 AP(*),X(*)
 *       ..
 *
 *
@@ -83,7 +83,7 @@
 *>
 *> \param[in] AP
 *> \verbatim
-*>          AP is REAL array, dimension at least
+*>          AP is REAL*16 array, dimension at least
 *>           ( ( n*( n + 1 ) )/2 ).
 *>           Before entry with  UPLO = 'U' or 'u', the array AP must
 *>           contain the upper triangular matrix packed sequentially,
@@ -101,7 +101,7 @@
 *>
 *> \param[in,out] X
 *> \verbatim
-*>          X is REAL array, dimension at least
+*>          X is REAL*16 array, dimension at least
 *>           ( 1 + ( n - 1 )*abs( INCX ) ).
 *>           Before entry, the incremented array X must contain the n
 *>           element right-hand side vector b. On exit, X is overwritten
@@ -123,7 +123,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level2
+*> \ingroup tpsv
 *
 *> \par Further Details:
 *  =====================
@@ -141,7 +141,6 @@
 *>
 *  =====================================================================
       SUBROUTINE QTPSV(UPLO,TRANS,DIAG,N,AP,X,INCX)
-      IMPLICIT NONE
 *
 *  -- Reference BLAS level2 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
@@ -179,10 +178,12 @@
       INFO = 0
       IF (.NOT.LSAME(UPLO,'U') .AND. .NOT.LSAME(UPLO,'L')) THEN
           INFO = 1
-      ELSE IF (.NOT.LSAME(TRANS,'N') .AND. .NOT.LSAME(TRANS,'T') .AND.
+      ELSE IF (.NOT.LSAME(TRANS,'N') .AND.
+     +         .NOT.LSAME(TRANS,'T') .AND.
      +         .NOT.LSAME(TRANS,'C')) THEN
           INFO = 2
-      ELSE IF (.NOT.LSAME(DIAG,'U') .AND. .NOT.LSAME(DIAG,'N')) THEN
+      ELSE IF (.NOT.LSAME(DIAG,'U') .AND.
+     +         .NOT.LSAME(DIAG,'N')) THEN
           INFO = 3
       ELSE IF (N.LT.0) THEN
           INFO = 4

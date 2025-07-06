@@ -29,15 +29,18 @@
 *>    (QX**T)
 *>
 *>    QX(LX+I*INCX), I = 0 TO N-1, WHERE LX = 1 IF INCX .GE. 0, ELSE
-*>    LX = (-INCX)*N, AND SIMILARLY FOR QY USING USING LY AND INCY.
+*>    LX = (-INCX)*N, AND SIMILARLY FOR QY USING LY AND INCY.
 *>    WITH QPARAM(1)=QFLAG, H HAS ONE OF THE FOLLOWING FORMS..
 *>
-*>    QFLAG=-1.Q0     QFLAG=0.Q0        QFLAG=1.E0     QFLAG=-2.E0
+*>    QFLAG=-1.Q0     QFLAG=0.Q0        QFLAG=1.Q0     QFLAG=-2.Q0
 *>
-*>      (QH11  QH12)    (1.E0  QH12)    (QH11  1.E0)    (1.E0  0.E0)
+*>      (QH11  QH12)    (1.Q0  QH12)    (QH11  1.Q0)    (1.Q0  0.Q0)
 *>    H=(          )    (          )    (          )    (          )
-*>      (QH21  QH22),   (QH21  1.E0),   (-1.E0 QH22),   (0.E0  1.E0).
+*>      (QH21  QH22),   (QH21  1.Q0),   (-1.Q0 QH22),   (0.Q0  1.Q0).
 *>    SEE  QROTMG FOR A DESCRIPTION OF DATA STORAGE IN QPARAM.
+*>
+*>    IF DFLAG IS NOT ONE OF THE LISTED ABOVE, THE BEHAVIOR IS UNDEFINED.
+*>    NANS IN DFLAG MAY NOT PROPAGATE TO THE OUTPUT.
 *>
 *> \endverbatim
 *
@@ -90,7 +93,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level1
+*> \ingroup rotm
 *
 *  =====================================================================
       SUBROUTINE QROTM(N,QX,INCX,QY,INCY,QPARAM)

@@ -148,7 +148,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \ingroup single_blas_level3
+*> \ingroup herk
 *
 *> \par Further Details:
 *  =====================
@@ -166,7 +166,6 @@
 *>
 *  =====================================================================
       SUBROUTINE QSYRK(UPLO,TRANS,N,K,ALPHA,A,LDA,BETA,C,LDC)
-      IMPLICIT NONE
 *
 *  -- Reference BLAS level3 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
@@ -357,6 +356,6 @@
 *
       RETURN
 *
-*     End of SSYRK
+*     End of QSYRK
 *
       END
